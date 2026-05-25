@@ -4,7 +4,7 @@ import { useContent } from '../context/ContentContext'
 import { Button } from './Button'
 
 export function ContactForm() {
-  const { services } = useContent()
+  const { services, contact } = useContent()
   const [searchParams] = useSearchParams()
   const prefillService = searchParams.get('service') ?? ''
 
@@ -13,14 +13,12 @@ export function ContactForm() {
   const [phone, setPhone] = useState('')
   const [service, setService] = useState(prefillService)
   const [message, setMessage] = useState('')
+  const [status, setStatus] = useState<'idle' | 'loading' | 'success' | 'error'>('idle')
+  const [errorMsg, setErrorMsg] = useState('')
 
   useEffect(() => {
     if (prefillService) setService(prefillService)
   }, [prefillService])
-  const [status, setStatus] = useState<'idle' | 'loading' | 'success' | 'error'>('idle')
-  const [errorMsg, setErrorMsg] = useState('')
-
-  const formId = import.meta.env.VITE_FORMSPREE_FORM_ID
 
   async function handleSubmit(e: FormEvent) {
     e.preventDefault()
@@ -36,9 +34,10 @@ export function ContactForm() {
       return
     }
 
-    if (!formId || formId === 'your_form_id_here') {
+    const recipientEmail = contact?.email?.trim()
+    if (!recipientEmail) {
       setErrorMsg(
-        'Contact form is not configured yet. Add VITE_FORMSPREE_FORM_ID to a .env.local file.',
+        'Contact email is not configured. Add an email address in public/content/contact.json.',
       )
       setStatus('error')
       return
@@ -51,22 +50,32 @@ export function ContactForm() {
       (service ? service : 'General inquiry')
 
     try {
-      const res = await fetch(`https://formspree.io/f/${formId}`, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          Accept: 'application/json',
+      const res = await fetch(
+        `https://formsubmit.co/ajax/${encodeURIComponent(recipientEmail)}`,
+        {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            Accept: 'application/json',
+          },
+          body: JSON.stringify({
+            name: name.trim(),
+            email: email.trim(),
+            phone: phone.trim() || 'Not provided',
+            service: serviceName,
+            message: message.trim(),
+            _subject: `New inquiry from ${name.trim()} — MZA Solutions`,
+            _template: 'table',
+            _captcha: 'false',
+          }),
         },
-        body: JSON.stringify({
-          name: name.trim(),
-          email: email.trim(),
-          phone: phone.trim() || undefined,
-          service: serviceName,
-          message: message.trim(),
-        }),
-      })
+      )
 
-      if (!res.ok) throw new Error('Submission failed')
+      const data = (await res.json()) as { success?: string; message?: string }
+
+      if (!res.ok) {
+        throw new Error(data.message ?? 'Submission failed')
+      }
 
       setStatus('success')
       setName('')
@@ -76,7 +85,9 @@ export function ContactForm() {
       setMessage('')
     } catch {
       setStatus('error')
-      setErrorMsg('Something went wrong. Please try again or email us directly.')
+      setErrorMsg(
+        'Something went wrong. Please try again or email us directly using the address on this page.',
+      )
     }
   }
 
@@ -107,6 +118,16 @@ export function ContactForm() {
 
   return (
     <form onSubmit={handleSubmit} className="space-y-5" noValidate>
+      {/* Honeypot — hidden from users, blocks simple bots */}
+      <input
+        type="text"
+        name="_gotcha"
+        tabIndex={-1}
+        autoComplete="off"
+        className="hidden"
+        aria-hidden
+      />
+
       <div>
         <label htmlFor="name" className="mb-1.5 block text-sm font-medium text-slate-300">
           Name <span className="text-accent-400">*</span>

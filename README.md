@@ -7,7 +7,7 @@ Mobile-first marketing site for **MZA Solutions**, built with Vite, React, TypeS
 - **Home**, **Services**, **Plans**, and **Contact** pages
 - **External JSON content** — edit services, plans, and company info without changing React code
 - **Quote-style plans** — no fixed prices; “Get a quote” links to contact with service prefill
-- **Contact form** via [Formspree](https://formspree.io)
+- **Contact form** via [FormSubmit](https://formsubmit.co) (free — no account or API key required)
 
 ## Quick start
 
@@ -86,23 +86,16 @@ Edit `public/content/contact.json`:
 
 Changes appear in the footer and on the Contact page “Direct contact” section.
 
-## Contact form setup
+## Contact form setup (free)
 
-1. Create a free account at [formspree.io](https://formspree.io)
-2. Create a new form and copy the form ID
-3. Copy `.env.example` to `.env.local`:
+The form sends email using [FormSubmit](https://formsubmit.co). It uses the **email address** from `public/content/contact.json` — no paid plan, no API keys, no `.env` file.
 
-   ```bash
-   cp .env.example .env.local
-   ```
+1. Set your real email in `public/content/contact.json`
+2. Deploy or run the site, then submit the contact form **once**
+3. Check that inbox for FormSubmit’s **activation email** and click the link (one-time per address)
+4. After activation, all submissions are delivered to that email
 
-4. Set your form ID:
-
-   ```
-   VITE_FORMSPREE_FORM_ID=your_actual_form_id
-   ```
-
-5. Restart the dev server (`npm run dev`)
+**Limits:** FormSubmit is free for typical small-business sites. For heavy volume or advanced features, consider [Web3Forms](https://web3forms.com) (free tier, access key) or Formspree’s free plan (50 submissions/month).
 
 ## Build & deploy
 
@@ -111,7 +104,7 @@ npm run build
 npm run preview
 ```
 
-Deploy the `dist/` folder to **Vercel**, **Netlify**, or any static host. Set `VITE_FORMSPREE_FORM_ID` as an environment variable in your hosting dashboard for production builds.
+Deploy the `dist/` folder to **Vercel**, **Netlify**, **GitHub Pages**, or any static host. No extra environment variables are needed for the contact form.
 
 ## Project structure
 
