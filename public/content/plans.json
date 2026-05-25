@@ -1,0 +1,88 @@
+{
+  "plans": [
+    {
+      "id": "website-launch",
+      "name": "Website Launch",
+      "tagline": "Get online with a polished, professional presence",
+      "relatedServiceId": "web-design",
+      "includes": [
+        "Custom mobile-first design",
+        "Up to 5 pages",
+        "Contact form integration",
+        "Basic on-page SEO setup",
+        "2 rounds of revisions"
+      ],
+      "idealFor": "Small businesses and startups launching their first website"
+    },
+    {
+      "id": "website-growth",
+      "name": "Website Growth",
+      "tagline": "Scale your site as your business expands",
+      "relatedServiceId": "web-design",
+      "includes": [
+        "Everything in Website Launch",
+        "Up to 12 pages",
+        "Blog or news section",
+        "Analytics setup",
+        "Performance optimization",
+        "3 rounds of revisions"
+      ],
+      "idealFor": "Growing businesses that need more pages and ongoing flexibility"
+    },
+    {
+      "id": "video-essentials",
+      "name": "Video Essentials",
+      "tagline": "Sharp edits for social and promotional content",
+      "relatedServiceId": "video-editing",
+      "includes": [
+        "Editing up to 3 minutes of footage",
+        "Color correction and audio leveling",
+        "Captions or subtitles",
+        "Export for social platforms",
+        "1 round of revisions"
+      ],
+      "idealFor": "Brands creating regular short-form video content"
+    },
+    {
+      "id": "video-pro",
+      "name": "Video Pro",
+      "tagline": "Full production polish for campaigns and corporate use",
+      "relatedServiceId": "video-editing",
+      "includes": [
+        "Everything in Video Essentials",
+        "Up to 10 minutes of edited content",
+        "Motion graphics and lower thirds",
+        "Multi-format delivery",
+        "2 rounds of revisions"
+      ],
+      "idealFor": "Companies running ad campaigns or corporate presentations"
+    },
+    {
+      "id": "brand-starter",
+      "name": "Brand Starter",
+      "tagline": "Establish a cohesive visual identity",
+      "relatedServiceId": "graphic-design",
+      "includes": [
+        "Logo design (3 concepts)",
+        "Color palette and typography guide",
+        "Business card and letterhead design",
+        "Social media profile assets"
+      ],
+      "idealFor": "New businesses defining their look for the first time"
+    },
+    {
+      "id": "business-it-care",
+      "name": "Business IT Care",
+      "tagline": "Peace of mind with proactive IT support",
+      "relatedServiceId": "it-support",
+      "includes": [
+        "Remote help desk support",
+        "System health monitoring",
+        "Monthly security review",
+        "Backup verification",
+        "Priority response for critical issues"
+      ],
+      "idealFor": "Teams without in-house IT who need dependable day-to-day support"
+    }
+  ]
+}

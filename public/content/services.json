@@ -1,0 +1,46 @@
+{
+  "services": [
+    {
+      "id": "web-design",
+      "name": "Website Design",
+      "description": "Custom, mobile-first websites built to represent your brand and convert visitors into customers.",
+      "icon": "layout",
+      "featured": true
+    },
+    {
+      "id": "video-editing",
+      "name": "Video Editing",
+      "description": "Professional editing for promos, social content, and corporate videos with polished pacing and color.",
+      "icon": "video",
+      "featured": true
+    },
+    {
+      "id": "graphic-design",
+      "name": "Graphic Design & Branding",
+      "description": "Logos, brand kits, and marketing visuals that keep your business looking consistent everywhere.",
+      "icon": "palette",
+      "featured": true
+    },
+    {
+      "id": "software-dev",
+      "name": "Software & App Development",
+      "description": "Web apps, internal tools, and custom software designed around how your team actually works.",
+      "icon": "code",
+      "featured": true
+    },
+    {
+      "id": "it-support",
+      "name": "IT Support & Managed Services",
+      "description": "Reliable remote support, monitoring, and proactive maintenance so your systems stay up.",
+      "icon": "shield",
+      "featured": false
+    },
+    {
+      "id": "digital-marketing",
+      "name": "Digital Marketing & SEO",
+      "description": "Search visibility, content strategy, and campaigns that bring the right audience to your door.",
+      "icon": "chart",
+      "featured": false
+    }
+  ]
+}

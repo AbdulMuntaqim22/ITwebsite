@@ -1,0 +1,11 @@
+{
+  "email": "hello@mzasolutions.com",
+  "phone": "+1 (555) 000-0000",
+  "address": "Your City, Your Country",
+  "hours": "Mon–Fri, 9:00 AM – 6:00 PM",
+  "social": {
+    "linkedin": "https://linkedin.com/company/mza-solutions",
+    "instagram": "https://instagram.com/mzasolutions",
+    "facebook": "https://facebook.com/mzasolutions"
+  }
+}
