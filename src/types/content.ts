@@ -33,6 +33,17 @@ export interface ContactDetails {
   }
 }
 
+export interface ContactSubmission {
+  id: number
+  name: string
+  email: string
+  phone: string | null
+  service: string
+  message: string
+  createdAt: string
+  read: boolean
+}
+
 export interface ServicesData {
   services: Service[]
 }
@@ -40,3 +51,12 @@ export interface ServicesData {
 export interface PlansData {
   plans: Plan[]
 }
+
+export const SERVICE_ICONS = [
+  'layout',
+  'video',
+  'palette',
+  'code',
+  'shield',
+  'chart',
+] as const

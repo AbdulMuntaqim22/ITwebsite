@@ -54,6 +54,9 @@ Desktop.ini
 # Optional: local editor / agent (uncomment if you prefer not to track)
 # .cursor/
 
+# SQLite database
+data/
+
 # Misc
 *.local
 .cache/

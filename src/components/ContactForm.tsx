@@ -1,10 +1,11 @@
 import { useEffect, useState, type FormEvent } from 'react'
 import { useSearchParams } from 'react-router-dom'
+import { apiFetch } from '../lib/api'
 import { useContent } from '../context/ContentContext'
 import { Button } from './Button'
 
 export function ContactForm() {
-  const { services, contact } = useContent()
+  const { services } = useContent()
   const [searchParams] = useSearchParams()
   const prefillService = searchParams.get('service') ?? ''
 
@@ -34,15 +35,6 @@ export function ContactForm() {
       return
     }
 
-    const recipientEmail = contact?.email?.trim()
-    if (!recipientEmail) {
-      setErrorMsg(
-        'Contact email is not configured. Add an email address in public/content/contact.json.',
-      )
-      setStatus('error')
-      return
-    }
-
     setStatus('loading')
 
     const serviceName =
@@ -50,32 +42,16 @@ export function ContactForm() {
       (service ? service : 'General inquiry')
 
     try {
-      const res = await fetch(
-        `https://formsubmit.co/ajax/${encodeURIComponent(recipientEmail)}`,
-        {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-            Accept: 'application/json',
-          },
-          body: JSON.stringify({
-            name: name.trim(),
-            email: email.trim(),
-            phone: phone.trim() || 'Not provided',
-            service: serviceName,
-            message: message.trim(),
-            _subject: `New inquiry from ${name.trim()} — MZA Solutions`,
-            _template: 'table',
-            _captcha: 'false',
-          }),
-        },
-      )
-
-      const data = (await res.json()) as { success?: string; message?: string }
-
-      if (!res.ok) {
-        throw new Error(data.message ?? 'Submission failed')
-      }
+      await apiFetch('/api/submissions', {
+        method: 'POST',
+        body: JSON.stringify({
+          name: name.trim(),
+          email: email.trim(),
+          phone: phone.trim() || undefined,
+          service: serviceName,
+          message: message.trim(),
+        }),
+      })
 
       setStatus('success')
       setName('')
@@ -118,16 +94,6 @@ export function ContactForm() {
 
   return (
     <form onSubmit={handleSubmit} className="space-y-5" noValidate>
-      {/* Honeypot — hidden from users, blocks simple bots */}
-      <input
-        type="text"
-        name="_gotcha"
-        tabIndex={-1}
-        autoComplete="off"
-        className="hidden"
-        aria-hidden
-      />
-
       <div>
         <label htmlFor="name" className="mb-1.5 block text-sm font-medium text-slate-300">
           Name <span className="text-accent-400">*</span>

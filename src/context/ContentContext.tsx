@@ -5,24 +5,23 @@ import {
   useState,
   type ReactNode,
 } from 'react'
+import { apiFetch } from '../lib/api'
 import type { Company, ContactDetails, Plan, Service } from '../types/content'
 
-interface ContentState {
+interface ContentPayload {
   services: Service[]
   plans: Plan[]
   company: Company | null
   contact: ContactDetails | null
+}
+
+interface ContentState extends ContentPayload {
   loading: boolean
   error: string | null
+  refresh: () => void
 }
 
 const ContentContext = createContext<ContentState | null>(null)
-
-async function fetchJson<T>(url: string): Promise<T> {
-  const res = await fetch(url)
-  if (!res.ok) throw new Error(`Failed to load ${url}`)
-  return res.json() as Promise<T>
-}
 
 export function ContentProvider({ children }: { children: ReactNode }) {
   const [state, setState] = useState<ContentState>({
@@ -32,34 +31,32 @@ export function ContentProvider({ children }: { children: ReactNode }) {
     contact: null,
     loading: true,
     error: null,
+    refresh: () => {},
   })
 
-  useEffect(() => {
-    async function load() {
-      try {
-        const [servicesData, plansData, company, contact] = await Promise.all([
-          fetchJson<{ services: Service[] }>('/content/services.json'),
-          fetchJson<{ plans: Plan[] }>('/content/plans.json'),
-          fetchJson<Company>('/content/company.json'),
-          fetchJson<ContactDetails>('/content/contact.json'),
-        ])
+  function load() {
+    setState((prev) => ({ ...prev, loading: true, error: null }))
+    apiFetch<ContentPayload>('/api/content')
+      .then((data) => {
         setState({
-          services: servicesData.services,
-          plans: plansData.plans,
-          company,
-          contact,
+          ...data,
           loading: false,
           error: null,
+          refresh: load,
         })
-      } catch {
+      })
+      .catch(() => {
         setState((prev) => ({
           ...prev,
           loading: false,
           error:
-            'Unable to load site content. Please check that content files exist in public/content/.',
+            'Unable to load site content. Make sure the API server is running (npm run dev:server).',
+          refresh: load,
         }))
-      }
-    }
+      })
+  }
+
+  useEffect(() => {
     load()
   }, [])
 

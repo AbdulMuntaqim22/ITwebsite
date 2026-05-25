@@ -6,21 +6,45 @@ import { Home } from './pages/Home'
 import { Services } from './pages/Services'
 import { Plans } from './pages/Plans'
 import { Contact } from './pages/Contact'
+import { AuthProvider } from './admin/AuthContext'
+import { ProtectedRoute } from './admin/ProtectedRoute'
+import { AdminLayout } from './admin/AdminLayout'
+import { AdminLogin } from './admin/pages/Login'
+import { AdminOverview } from './admin/pages/Overview'
+import { AdminSubmissions } from './admin/pages/Submissions'
+import { AdminServices } from './admin/pages/ServicesAdmin'
+import { AdminPlans } from './admin/pages/PlansAdmin'
+import { AdminContactSettings } from './admin/pages/ContactSettings'
+import { AdminCompanySettings } from './admin/pages/CompanySettings'
 
 export default function App() {
   return (
     <HelmetProvider>
       <ContentProvider>
-        <BrowserRouter>
-          <Routes>
-            <Route path="/" element={<Layout />}>
-              <Route index element={<Home />} />
-              <Route path="services" element={<Services />} />
-              <Route path="plans" element={<Plans />} />
-              <Route path="contact" element={<Contact />} />
-            </Route>
-          </Routes>
-        </BrowserRouter>
+        <AuthProvider>
+          <BrowserRouter>
+            <Routes>
+              <Route path="/" element={<Layout />}>
+                <Route index element={<Home />} />
+                <Route path="services" element={<Services />} />
+                <Route path="plans" element={<Plans />} />
+                <Route path="contact" element={<Contact />} />
+              </Route>
+
+              <Route path="/admin/login" element={<AdminLogin />} />
+              <Route path="/admin" element={<ProtectedRoute />}>
+                <Route element={<AdminLayout />}>
+                  <Route index element={<AdminOverview />} />
+                  <Route path="submissions" element={<AdminSubmissions />} />
+                  <Route path="services" element={<AdminServices />} />
+                  <Route path="plans" element={<AdminPlans />} />
+                  <Route path="contact" element={<AdminContactSettings />} />
+                  <Route path="company" element={<AdminCompanySettings />} />
+                </Route>
+              </Route>
+            </Routes>
+          </BrowserRouter>
+        </AuthProvider>
       </ContentProvider>
     </HelmetProvider>
   )
