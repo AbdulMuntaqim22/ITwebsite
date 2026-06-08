@@ -14,18 +14,23 @@ export function Contact() {
         description="Get in touch with MZA Solutions for a quote on website design, video editing, and IT services."
       />
 
-      <div className="border-b border-white/5 bg-navy-900/30 px-4 py-12 text-center sm:px-6 sm:py-16">
-        <h1 className="text-3xl font-bold text-white sm:text-4xl">Contact Us</h1>
-        <p className="mx-auto mt-4 max-w-2xl text-slate-400">
-          Have a project in mind? Send us a message and we&apos;ll get back to you with a tailored quote.
-        </p>
+      <div className="rounded-[2rem] border border-[color:var(--border)] bg-[color:var(--surface)] px-6 py-14 text-center shadow-card sm:px-8 sm:py-18">
+        <div className="mx-auto max-w-3xl">
+          <p className="text-xs font-semibold uppercase tracking-[0.45em] text-[color:var(--accent)]">Contact</p>
+          <h1 className="mt-4 text-4xl font-bold tracking-tight text-[color:var(--text)] sm:text-5xl">
+            Contact Us
+          </h1>
+          <p className="mx-auto mt-4 max-w-2xl text-base leading-relaxed text-[color:var(--muted)] sm:text-lg">
+            Have a project in mind? Send us a message and we&apos;ll get back to you with a tailored quote.
+          </p>
+        </div>
       </div>
 
       <Section>
-        <div className="grid gap-12 lg:grid-cols-2 lg:gap-16">
-          <div>
-            <h2 className="text-xl font-semibold text-white">Send a message</h2>
-            <p className="mt-2 text-sm text-slate-400">
+        <div className="grid gap-12 lg:grid-cols-[1.2fr_0.85fr] lg:gap-16">
+          <div className="rounded-[2rem] border border-[color:var(--border)] bg-[color:var(--surface)] p-8 shadow-card">
+            <h2 className="text-xl font-semibold text-[color:var(--text)]">Send a message</h2>
+            <p className="mt-2 text-sm text-[color:var(--muted)]">
               Fill out the form and we&apos;ll respond within 1–2 business days.
             </p>
             <div className="mt-8">
@@ -34,9 +39,11 @@ export function Contact() {
           </div>
 
           {contact && (
-            <div className="rounded-xl border border-white/10 bg-navy-900/80 p-6 sm:p-8">
-              <h2 className="text-xl font-semibold text-white">Direct contact</h2>
-              <DirectContactInfo variant="card" />
+            <div className="rounded-[2rem] border border-[color:var(--border)] bg-[color:var(--surface)] p-8 shadow-card">
+              <h2 className="text-xl font-semibold text-[color:var(--text)]">Direct contact</h2>
+              <div className="mt-6">
+                <DirectContactInfo variant="card" />
+              </div>
             </div>
           )}
         </div>

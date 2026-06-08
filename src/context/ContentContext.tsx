@@ -6,13 +6,14 @@ import {
   type ReactNode,
 } from 'react'
 import { apiFetch } from '../lib/api'
-import type { Company, ContactDetails, Plan, Service } from '../types/content'
+import type { Company, ContactDetails, Plan, PortfolioItem, Service } from '../types/content'
 
 interface ContentPayload {
   services: Service[]
   plans: Plan[]
   company: Company | null
   contact: ContactDetails | null
+  portfolio: PortfolioItem[]
 }
 
 interface ContentState extends ContentPayload {
@@ -29,6 +30,7 @@ export function ContentProvider({ children }: { children: ReactNode }) {
     plans: [],
     company: null,
     contact: null,
+    portfolio: [],
     loading: true,
     error: null,
     refresh: () => {},
@@ -38,12 +40,16 @@ export function ContentProvider({ children }: { children: ReactNode }) {
     setState((prev) => ({ ...prev, loading: true, error: null }))
     apiFetch<ContentPayload>('/api/content')
       .then((data) => {
-        setState({
-          ...data,
+        setState((prev) => ({
+          services: Array.isArray(data.services) ? data.services : prev.services,
+          plans: Array.isArray(data.plans) ? data.plans : prev.plans,
+          company: data.company ?? prev.company,
+          contact: data.contact ?? prev.contact,
+          portfolio: Array.isArray(data.portfolio) ? data.portfolio : prev.portfolio,
           loading: false,
           error: null,
           refresh: load,
-        })
+        }))
       })
       .catch(() => {
         setState((prev) => ({

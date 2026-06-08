@@ -38,7 +38,7 @@ export function ContactForm() {
     setStatus('loading')
 
     const serviceName =
-      services.find((s) => s.id === service)?.name ??
+      (services ?? []).find((s) => s.id === service)?.name ??
       (service ? service : 'General inquiry')
 
     try {
@@ -70,11 +70,11 @@ export function ContactForm() {
   if (status === 'success') {
     return (
       <div
-        className="rounded-xl border border-accent-500/30 bg-accent-500/10 p-8 text-center"
+        className="rounded-[2rem] border border-[color:var(--accent)]/30 bg-[color:var(--accent-soft)] p-8 text-center shadow-card"
         role="status"
       >
-        <p className="text-lg font-semibold text-white">Thank you!</p>
-        <p className="mt-2 text-slate-400">
+        <p className="text-lg font-semibold text-[color:var(--text)]">Thank you!</p>
+        <p className="mt-2 text-[color:var(--muted)]">
           We received your message and will get back to you soon.
         </p>
         <Button
@@ -90,80 +90,84 @@ export function ContactForm() {
   }
 
   const inputClass =
-    'w-full min-h-11 rounded-lg border border-white/10 bg-navy-800 px-4 py-2.5 text-white placeholder:text-slate-500 focus:border-accent-500 focus:outline-none focus:ring-1 focus:ring-accent-500'
+    'w-full min-h-11 rounded-[1.25rem] border border-[color:var(--border)] bg-[color:var(--surface-strong)] px-4 py-3 text-[color:var(--text)] placeholder:text-[color:var(--muted)] focus:border-[color:var(--accent)] focus:outline-none focus:ring-1 focus:ring-[color:var(--accent)]'
 
   return (
-    <form onSubmit={handleSubmit} className="space-y-5" noValidate>
-      <div>
-        <label htmlFor="name" className="mb-1.5 block text-sm font-medium text-slate-300">
-          Name <span className="text-accent-400">*</span>
-        </label>
-        <input
-          id="name"
-          name="name"
-          type="text"
-          required
-          autoComplete="name"
-          className={inputClass}
-          value={name}
-          onChange={(e) => setName(e.target.value)}
-        />
+    <form onSubmit={handleSubmit} className="space-y-6" noValidate>
+      <div className="grid gap-5 sm:grid-cols-2">
+        <div>
+          <label htmlFor="name" className="mb-1.5 block text-sm font-medium text-[color:var(--text)]">
+            Name <span className="text-[color:var(--accent)]">*</span>
+          </label>
+          <input
+            id="name"
+            name="name"
+            type="text"
+            required
+            autoComplete="name"
+            className={inputClass}
+            value={name}
+            onChange={(e) => setName(e.target.value)}
+          />
+        </div>
+
+        <div>
+          <label htmlFor="email" className="mb-1.5 block text-sm font-medium text-[color:var(--text)]">
+            Email <span className="text-[color:var(--accent)]">*</span>
+          </label>
+          <input
+            id="email"
+            name="email"
+            type="email"
+            required
+            autoComplete="email"
+            className={inputClass}
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+          />
+        </div>
+      </div>
+
+      <div className="grid gap-5 sm:grid-cols-2">
+        <div>
+          <label htmlFor="phone" className="mb-1.5 block text-sm font-medium text-[color:var(--text)]">
+            Phone <span className="text-[color:var(--muted)]">(optional)</span>
+          </label>
+          <input
+            id="phone"
+            name="phone"
+            type="tel"
+            autoComplete="tel"
+            className={inputClass}
+            value={phone}
+            onChange={(e) => setPhone(e.target.value)}
+          />
+        </div>
+
+        <div>
+          <label htmlFor="service" className="mb-1.5 block text-sm font-medium text-[color:var(--text)]">
+            Service of interest
+          </label>
+          <select
+            id="service"
+            name="service"
+            className={inputClass}
+            value={service}
+            onChange={(e) => setService(e.target.value)}
+          >
+            <option value="">General inquiry</option>
+            {(services ?? []).map((s) => (
+              <option key={s.id} value={s.id}>
+                {s.name}
+              </option>
+            ))}
+          </select>
+        </div>
       </div>
 
       <div>
-        <label htmlFor="email" className="mb-1.5 block text-sm font-medium text-slate-300">
-          Email <span className="text-accent-400">*</span>
-        </label>
-        <input
-          id="email"
-          name="email"
-          type="email"
-          required
-          autoComplete="email"
-          className={inputClass}
-          value={email}
-          onChange={(e) => setEmail(e.target.value)}
-        />
-      </div>
-
-      <div>
-        <label htmlFor="phone" className="mb-1.5 block text-sm font-medium text-slate-300">
-          Phone <span className="text-slate-500">(optional)</span>
-        </label>
-        <input
-          id="phone"
-          name="phone"
-          type="tel"
-          autoComplete="tel"
-          className={inputClass}
-          value={phone}
-          onChange={(e) => setPhone(e.target.value)}
-        />
-      </div>
-
-      <div>
-        <label htmlFor="service" className="mb-1.5 block text-sm font-medium text-slate-300">
-          Service of interest
-        </label>
-        <select
-          id="service"
-          name="service"
-          className={inputClass}
-          value={service}
-          onChange={(e) => setService(e.target.value)}
-        >
-          <option value="">General inquiry</option>
-          {services.map((s) => (
-            <option key={s.id} value={s.id}>
-              {s.name}
-            </option>
-          ))}
-        </select>
-      </div>
-
-      <div>
-        <label htmlFor="message" className="mb-1.5 block text-sm font-medium text-slate-300">
-          Message <span className="text-accent-400">*</span>
+        <label htmlFor="message" className="mb-1.5 block text-sm font-medium text-[color:var(--text)]">
+          Message <span className="text-[color:var(--accent)]">*</span>
         </label>
         <textarea
           id="message"

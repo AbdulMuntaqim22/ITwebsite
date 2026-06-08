@@ -4,19 +4,35 @@ export async function apiFetch<T>(
   path: string,
   options: RequestInit = {},
 ): Promise<T> {
+  const headers = {
+    ...options.headers,
+  }
+
+  if (!(options.body instanceof FormData)) {
+    Object.assign(headers, { 'Content-Type': 'application/json' })
+  }
+
   const res = await fetch(`${API_BASE}${path}`, {
     ...options,
     credentials: 'include',
-    headers: {
-      'Content-Type': 'application/json',
-      ...options.headers,
-    },
+    headers,
   })
 
-  const data = await res.json().catch(() => ({}))
+  const text = await res.text()
+  let data: unknown = {}
+
+  if (text) {
+    try {
+      data = JSON.parse(text)
+    } catch {
+      throw new Error(`Invalid JSON response from ${path}`)
+    }
+  }
 
   if (!res.ok) {
-    throw new Error((data as { error?: string }).error ?? `Request failed (${res.status})`)
+    throw new Error(
+      ((data as { error?: string }).error ?? `Request failed (${res.status})`) as string,
+    )
   }
 
   return data as T

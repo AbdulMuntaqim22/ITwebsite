@@ -82,16 +82,6 @@ export function AdminServices() {
           {editing ? 'Edit service' : 'Add service'}
         </h2>
 
-        {!editing && (
-          <AdminInput
-            label="ID (optional — auto-generated from name)"
-            id="sid"
-            value={form.id}
-            onChange={(e) => setForm({ ...form, id: e.target.value })}
-            placeholder="web-design"
-          />
-        )}
-
         <AdminInput
           label="Name"
           id="sname"
@@ -162,7 +152,7 @@ export function AdminServices() {
               <div>
                 <p className="font-medium text-white">{s.name}</p>
                 <p className="text-xs text-slate-500">
-                  {s.id} · {s.icon}
+                  {s.icon}
                   {s.featured ? ' · featured' : ''}
                 </p>
               </div>

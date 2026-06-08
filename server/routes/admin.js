@@ -1,6 +1,25 @@
+import fs from 'fs'
+import path from 'path'
+import { fileURLToPath } from 'url'
 import { Router } from 'express'
+import multer from 'multer'
 import { requireAuth } from '../middleware/auth.js'
 import { rowToPlan, rowToService } from '../db.js'
+
+const __dirname = path.dirname(fileURLToPath(import.meta.url))
+const uploadsDir = path.join(__dirname, '..', 'uploads')
+fs.mkdirSync(uploadsDir, { recursive: true })
+
+const upload = multer({
+  storage: multer.diskStorage({
+    destination: (_req, _file, cb) => cb(null, uploadsDir),
+    filename: (_req, file, cb) => {
+      const extension = path.extname(file.originalname)
+      const safeName = `${Date.now()}-${file.fieldname}${extension}`
+      cb(null, safeName)
+    },
+  }),
+})
 
 function slugify(text) {
   return text
@@ -8,6 +27,16 @@ function slugify(text) {
     .trim()
     .replace(/[^a-z0-9]+/g, '-')
     .replace(/^-|-$/g, '')
+}
+
+function generateUniquePortfolioId(db, baseId) {
+  let id = baseId
+  let counter = 0
+  while (db.prepare('SELECT 1 FROM portfolio_items WHERE id = ?').get(id)) {
+    counter += 1
+    id = `${baseId}-${counter}`
+  }
+  return id
 }
 
 export function createAdminRouter(db) {
@@ -158,6 +187,59 @@ export function createAdminRouter(db) {
 
   router.delete('/plans/:id', (req, res) => {
     const result = db.prepare('DELETE FROM plans WHERE id = ?').run(req.params.id)
+    if (result.changes === 0) return res.status(404).json({ error: 'Not found' })
+    res.json({ ok: true })
+  })
+
+  // --- Portfolio ---
+  router.get('/portfolio', (_req, res) => {
+    const rows = db
+      .prepare('SELECT * FROM portfolio_items ORDER BY sort_order ASC')
+      .all()
+    res.json(rows.map((row) => ({
+      id: row.id,
+      title: row.title,
+      description: row.description,
+      category: row.category ?? undefined,
+      imageUrl: row.image_url ?? undefined,
+    })))
+  })
+
+  router.post('/portfolio', (req, res) => {
+    const { id, title, description, category, imageUrl } = req.body ?? {}
+    const baseId = id?.trim() || slugify(title || `portfolio-${Date.now()}`)
+    const itemId = generateUniquePortfolioId(db, baseId)
+    const maxOrder = db.prepare('SELECT MAX(sort_order) as m FROM portfolio_items').get().m ?? -1
+
+    db.prepare(
+      `INSERT INTO portfolio_items (id, title, description, category, image_url, sort_order)
+       VALUES (?, ?, ?, ?, ?, ?)`,
+    ).run(itemId, title, description, category ?? null, imageUrl ?? null, maxOrder + 1)
+    res.status(201).json({ ok: true, id: itemId })
+  })
+
+  router.post('/portfolio/upload', upload.single('image'), (req, res) => {
+    if (!req.file) {
+      return res.status(400).json({ error: 'Image file is required' })
+    }
+
+    res.json({ url: `/uploads/${req.file.filename}` })
+  })
+
+  router.put('/portfolio/:id', (req, res) => {
+    const { title, description, category, imageUrl } = req.body ?? {}
+    const result = db
+      .prepare(
+        `UPDATE portfolio_items SET title = ?, description = ?, category = ?, image_url = ? WHERE id = ?`,
+      )
+      .run(title, description, category ?? null, imageUrl ?? null, req.params.id)
+
+    if (result.changes === 0) return res.status(404).json({ error: 'Not found' })
+    res.json({ ok: true })
+  })
+
+  router.delete('/portfolio/:id', (req, res) => {
+    const result = db.prepare('DELETE FROM portfolio_items WHERE id = ?').run(req.params.id)
     if (result.changes === 0) return res.status(404).json({ error: 'Not found' })
     res.json({ ok: true })
   })

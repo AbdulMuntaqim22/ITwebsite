@@ -2,12 +2,13 @@ import { Link, NavLink, Outlet, useNavigate } from 'react-router-dom'
 import { useAuth } from './AuthContext'
 
 const nav = [
-  { to: '/admin', label: 'Overview', end: true },
-  { to: '/admin/submissions', label: 'Submissions' },
-  { to: '/admin/services', label: 'Services' },
-  { to: '/admin/plans', label: 'Plans' },
-  { to: '/admin/contact', label: 'Contact info' },
-  { to: '/admin/company', label: 'Company' },
+  { to: '/mza', label: 'Overview', end: true },
+  { to: '/mza/submissions', label: 'Submissions' },
+  { to: '/mza/services', label: 'Services' },
+  { to: '/mza/plans', label: 'Plans' },
+  { to: '/mza/portfolio', label: 'Portfolio' },
+  { to: '/mza/contact', label: 'Contact info' },
+  { to: '/mza/company', label: 'Company' },
 ]
 
 export function AdminLayout() {
@@ -16,7 +17,7 @@ export function AdminLayout() {
 
   async function handleLogout() {
     await logout()
-    navigate('/admin/login')
+    navigate('/mza/portal')
   }
 
   return (

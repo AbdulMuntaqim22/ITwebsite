@@ -112,15 +112,6 @@ export function AdminPlans() {
           {editing ? 'Edit plan' : 'Add plan'}
         </h2>
 
-        {!editing && (
-          <AdminInput
-            label="ID (optional)"
-            id="pid"
-            value={form.id}
-            onChange={(e) => setForm({ ...form, id: e.target.value })}
-          />
-        )}
-
         <AdminInput
           label="Name"
           id="pname"
@@ -216,7 +207,6 @@ export function AdminPlans() {
             >
               <div>
                 <p className="font-medium text-white">{p.name}</p>
-                <p className="text-xs text-slate-500">{p.id}</p>
               </div>
               <div className="flex gap-2">
                 <Button type="button" variant="outline" onClick={() => startEdit(p)}>

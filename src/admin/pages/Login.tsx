@@ -13,7 +13,7 @@ export function AdminLogin() {
   const [submitting, setSubmitting] = useState(false)
 
   if (!loading && username) {
-    return <Navigate to="/admin" replace />
+    return <Navigate to="/mza" replace />
   }
 
   async function handleSubmit(e: FormEvent) {
@@ -22,7 +22,7 @@ export function AdminLogin() {
     setSubmitting(true)
     try {
       await login(user, pass)
-      navigate('/admin')
+      navigate('/mza')
     } catch (err) {
       setError(err instanceof Error ? err.message : 'Login failed')
     } finally {

@@ -1,0 +1,28 @@
+{
+  "portfolio": [
+    {
+      "id": "branding-refresh",
+      "title": "Branding refresh for a tech consultancy",
+      "description": "Updated the website and visual language to improve clarity and lead generation for a fast-growing consultancy.",
+      "category": "Branding",
+      "imageUrl": "",
+      "sort_order": 0
+    },
+    {
+      "id": "ecommerce-launch",
+      "title": "E-commerce launch for a specialty retailer",
+      "description": "Built a modern storefront with custom inventory and checkout flows that helped the client scale online sales.",
+      "category": "Web Development",
+      "imageUrl": "",
+      "sort_order": 1
+    },
+    {
+      "id": "video-campaign",
+      "title": "Video campaign for service promotion",
+      "description": "Produced short promo videos and created a launch landing page to boost engagement and conversions.",
+      "category": "Video",
+      "imageUrl": "",
+      "sort_order": 2
+    }
+  ]
+}

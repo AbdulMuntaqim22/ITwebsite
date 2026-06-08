@@ -1,5 +1,6 @@
 import { NavLink } from 'react-router-dom'
 import { Button } from './Button'
+import { ThemeToggle } from './ThemeToggle'
 
 interface MobileNavProps {
   open: boolean
@@ -11,12 +12,16 @@ export function MobileNav({ open, onClose, links }: MobileNavProps) {
   return (
     <nav
       id="mobile-nav"
-      className={`border-t border-white/5 bg-navy-900 md:hidden ${
+      className={`border-t border-[color:var(--border)] bg-[color:var(--surface)]/98 backdrop-blur-xl md:hidden ${
         open ? 'block' : 'hidden'
-      }`}
+      } shadow-card`}
       aria-label="Mobile"
     >
-      <ul className="flex flex-col gap-1 px-4 py-4">
+      <div className="border-b border-[color:var(--border)] px-4 py-4">
+        <p className="text-sm font-semibold uppercase tracking-[0.35em] text-[color:var(--accent)]">Navigation</p>
+        <p className="mt-2 text-sm leading-6 text-[color:var(--muted)]">Explore services, plans, and get started with your next project.</p>
+      </div>
+      <ul className="flex flex-col gap-3 px-4 py-4">
         {links.map(({ to, label }) => (
           <li key={to}>
             <NavLink
@@ -24,10 +29,10 @@ export function MobileNav({ open, onClose, links }: MobileNavProps) {
               end={to === '/'}
               onClick={onClose}
               className={({ isActive }) =>
-                `block min-h-11 rounded-lg px-4 py-3 text-base font-medium ${
+                `block min-h-11 rounded-2xl border border-[color:var(--border)] bg-[color:var(--surface)] px-4 py-3 text-base font-medium transition ${
                   isActive
-                    ? 'bg-accent-500/15 text-accent-400'
-                    : 'text-slate-300 hover:bg-white/5 hover:text-white'
+                    ? 'text-[color:var(--accent)] shadow-card'
+                    : 'text-[color:var(--text)] hover:border-[color:var(--accent)] hover:text-[color:var(--accent)]'
                 }`
               }
             >
@@ -35,10 +40,15 @@ export function MobileNav({ open, onClose, links }: MobileNavProps) {
             </NavLink>
           </li>
         ))}
-        <li className="pt-2">
+        <li>
           <Button to="/contact" className="w-full" onClick={onClose}>
-            Get a quote
+            Start project
           </Button>
+        </li>
+        <li className="pt-2">
+          <div className="flex justify-center">
+            <ThemeToggle />
+          </div>
         </li>
       </ul>
     </nav>

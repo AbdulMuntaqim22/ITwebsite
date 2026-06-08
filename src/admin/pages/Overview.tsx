@@ -10,11 +10,12 @@ export function AdminOverview() {
 
       <ul className="mt-8 grid gap-4 sm:grid-cols-2">
         {[
-          { to: '/admin/submissions', label: 'Submissions', desc: 'Contact form inbox' },
-          { to: '/admin/services', label: 'Services', desc: 'Add or edit services' },
-          { to: '/admin/plans', label: 'Plans', desc: 'Offerings and packages' },
-          { to: '/admin/contact', label: 'Contact info', desc: 'Email, phone, address' },
-          { to: '/admin/company', label: 'Company', desc: 'Name, tagline, about' },
+          { to: '/mza/submissions', label: 'Submissions', desc: 'Contact form inbox' },
+          { to: '/mza/services', label: 'Services', desc: 'Add or edit services' },
+          { to: '/mza/plans', label: 'Plans', desc: 'Offerings and packages' },
+          { to: '/mza/portfolio', label: 'Portfolio', desc: 'Manage homepage portfolio items' },
+          { to: '/mza/contact', label: 'Contact info', desc: 'Email, phone, address' },
+          { to: '/mza/company', label: 'Company', desc: 'Name, tagline, about' },
         ].map((item) => (
           <li key={item.to}>
             <Link

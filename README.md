@@ -5,7 +5,7 @@ Mobile-first marketing site for **MZA Solutions**, built with Vite, React, TypeS
 ## Features
 
 - **Home**, **Services**, **Plans**, and **Contact** pages
-- **Admin center** at `/admin` — manage services, plans, company info, contact details, and contact form submissions
+- **Admin center** at `/mza` — manage services, plans, company info, contact details, and contact form submissions
 - **SQLite database** — free, self-hosted; seeded from `public/content/*.json` on first run
 - **Quote-style plans** — no fixed prices; “Get a quote” links to contact with service prefill
 
@@ -19,7 +19,7 @@ npm run dev
 ```
 
 - Public site: [http://localhost:5173](http://localhost:5173)
-- Admin: [http://localhost:5173/admin](http://localhost:5173/admin)
+- Admin: [http://localhost:5173/mza](http://localhost:5173/mza)
 - API: [http://localhost:3001](http://localhost:3001) (proxied via Vite in dev)
 
 **Default admin login** (first run only — change in `.env` before production):
@@ -50,9 +50,18 @@ npm run dev
 
 Data is stored in `data/mza.db` (gitignored). Back up this file regularly.
 
+### Reset admin password without deleting the DB
+If you need to update the admin password directly in the SQLite database, run this command from the project root:
+
+```powershell
+node --input-type=module -e 'import Database from "better-sqlite3"; import bcrypt from "bcryptjs"; const db = new Database("./data/mza.db"); const hash = bcrypt.hashSync("YourNewPassword", 10); const result = db.prepare("UPDATE admin_users SET password_hash = ? WHERE username = ?").run(hash, "admin"); console.log(result.changes ? "Password updated" : "No admin row found"); db.close();'
+```
+
+Replace `YourNewPassword` with the new admin password.
+
 ## Environment variables
 
-Copy [`.env.example`](.env.example) to `.env`:
+Create a `.env` file with these values:
 
 | Variable | Purpose |
 |----------|---------|

@@ -33,6 +33,14 @@ export interface ContactDetails {
   }
 }
 
+export interface PortfolioItem {
+  id: string
+  title: string
+  description: string
+  category?: string
+  imageUrl?: string
+}
+
 export interface ContactSubmission {
   id: number
   name: string

@@ -20,18 +20,18 @@ export function Section({
   return (
     <section
       id={id}
-      className={`px-4 py-14 sm:px-6 sm:py-20 lg:px-8 ${alt ? 'bg-navy-900/50' : ''} ${className}`}
+      className={`relative overflow-hidden px-4 py-16 sm:px-6 sm:py-24 lg:px-8 ${alt ? 'bg-[color:var(--surface-strong)]' : ''} ${className}`}
     >
       <div className="mx-auto max-w-6xl">
         {(title || subtitle) && (
           <header className="mb-10 text-center sm:mb-12">
             {title && (
-              <h2 className="text-2xl font-bold tracking-tight text-white sm:text-3xl">
+              <h2 className="text-2xl font-semibold tracking-tight text-[color:var(--text)] sm:text-3xl">
                 {title}
               </h2>
             )}
             {subtitle && (
-              <p className="mx-auto mt-3 max-w-2xl text-base text-slate-400 sm:text-lg">
+              <p className="mx-auto mt-3 max-w-2xl text-base text-[color:var(--muted)] sm:text-lg">
                 {subtitle}
               </p>
             )}

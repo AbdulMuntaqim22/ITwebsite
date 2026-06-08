@@ -1,0 +1,7 @@
+<svg width="512" height="512" viewBox="0 0 512 512" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="MZA logo favicon">
+  <rect width="512" height="512" rx="72" fill="#111" />
+  <path fill="#fff" d="M52 384V120h40l70 104 70-104h40v264h-40V228l-70 116-70-116v156H52Z" />
+  <path fill="#1C7BFF" d="M236 120h176l-88 128 88 128H236v-40h128l-76-80 76-80H236v-40Z" />
+  <path fill="#fff" d="M440 120 508 384H460L438 312H362L340 384H292L440 120Z" />
+  <path fill="#111" d="M384 236 416 320H352L384 236Z" />
+</svg>

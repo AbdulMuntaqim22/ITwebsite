@@ -6,7 +6,7 @@ export function ProtectedRoute() {
   const { username, loading } = useAuth()
 
   if (loading) return <LoadingState message="Checking session..." />
-  if (!username) return <Navigate to="/admin/login" replace />
+  if (!username) return <Navigate to="/mza/portal" replace />
 
   return <Outlet />
 }

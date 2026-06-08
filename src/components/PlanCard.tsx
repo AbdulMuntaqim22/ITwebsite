@@ -7,23 +7,32 @@ export function PlanCard({ plan }: { plan: Plan }) {
     : '/contact'
 
   return (
-    <article className="flex flex-col rounded-xl border border-white/10 bg-navy-900/80 p-6 sm:p-8">
-      <h3 className="text-xl font-bold text-white">{plan.name}</h3>
-      <p className="mt-2 text-sm text-accent-400">{plan.tagline}</p>
+    <article className="group flex flex-col rounded-[2rem] border border-[color:var(--border)] bg-[color:var(--surface)] p-8 shadow-card transition duration-300 hover:-translate-y-1 hover:border-[color:var(--accent)]/40">
+      <div className="flex items-center justify-between gap-4">
+        <div>
+          <h3 className="text-xl font-bold text-[color:var(--text)]">{plan.name}</h3>
+          <p className="mt-2 text-sm text-[color:var(--accent)]">{plan.tagline}</p>
+        </div>
+        <span className="rounded-full bg-[color:var(--accent-soft)] px-3 py-1 text-xs font-semibold uppercase tracking-[0.25em] text-[color:var(--accent)]">
+          Package
+        </span>
+      </div>
 
-      <ul className="mt-6 flex-1 space-y-2">
-        {plan.includes.map((item) => (
-          <li key={item} className="flex gap-2 text-sm text-slate-300">
-            <span className="mt-0.5 text-accent-500" aria-hidden>
-              ✓
-            </span>
-            {item}
-          </li>
-        ))}
+      <ul className="mt-6 flex-1 space-y-3">
+        {Array.isArray(plan.includes)
+          ? plan.includes.map((item) => (
+              <li key={item} className="flex gap-3 text-sm text-[color:var(--text)]">
+                <span className="mt-1 inline-flex h-6 w-6 items-center justify-center rounded-2xl bg-[color:var(--accent-soft)] text-[color:var(--accent)]">
+                  ✓
+                </span>
+                <span>{item}</span>
+              </li>
+            ))
+          : null}
       </ul>
 
-      <p className="mt-6 text-xs text-slate-500">
-        <span className="font-medium text-slate-400">Ideal for: </span>
+      <p className="mt-6 text-xs text-[color:var(--muted)]">
+        <span className="font-medium text-[color:var(--text)]">Ideal for: </span>
         {plan.idealFor}
       </p>
 

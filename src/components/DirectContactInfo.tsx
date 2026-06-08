@@ -13,41 +13,41 @@ export function DirectContactInfo({ variant = 'card' }: DirectContactInfoProps) 
   const items = (
     <>
       <li>
-        <span className="block text-slate-500">Email</span>
+        <span className="block text-[color:var(--muted)]">Email</span>
         <a
           href={`mailto:${contact.email}`}
           className={
             variant === 'card'
-              ? 'font-medium text-accent-400 hover:underline'
-              : 'hover:text-accent-400'
+              ? 'font-medium text-[color:var(--accent)] hover:underline'
+              : 'hover:text-[color:var(--accent)]'
           }
         >
           {contact.email}
         </a>
       </li>
       <li>
-        <span className="block text-slate-500">Phone</span>
+        <span className="block text-[color:var(--muted)]">Phone</span>
         <a
           href={`tel:${tel}`}
           className={
             variant === 'card'
-              ? 'font-medium text-accent-400 hover:underline'
-              : 'hover:text-accent-400'
+              ? 'font-medium text-[color:var(--accent)] hover:underline'
+              : 'hover:text-[color:var(--accent)]'
           }
         >
           {contact.phone}
         </a>
       </li>
       <li>
-        <span className="block text-slate-500">Address</span>
-        <span className={variant === 'card' ? 'text-slate-300' : ''}>
+        <span className="block text-[color:var(--muted)]">Address</span>
+        <span className={variant === 'card' ? 'text-[color:var(--text)]' : ''}>
           {contact.address}
         </span>
       </li>
       {contact.hours && (
         <li>
-          <span className="block text-slate-500">Hours</span>
-          <span className={variant === 'card' ? 'text-slate-300' : ''}>
+          <span className="block text-[color:var(--muted)]">Hours</span>
+          <span className={variant === 'card' ? 'text-[color:var(--text)]' : ''}>
             {contact.hours}
           </span>
         </li>
@@ -63,7 +63,7 @@ export function DirectContactInfo({ variant = 'card' }: DirectContactInfoProps) 
         {contact.social.linkedin && (
           <a
             href={contact.social.linkedin}
-            className="text-sm text-slate-400 hover:text-accent-400"
+            className="text-sm text-[color:var(--muted)] hover:text-[color:var(--accent)]"
             target="_blank"
             rel="noopener noreferrer"
           >
@@ -73,7 +73,7 @@ export function DirectContactInfo({ variant = 'card' }: DirectContactInfoProps) 
         {contact.social.instagram && (
           <a
             href={contact.social.instagram}
-            className="text-sm text-slate-400 hover:text-accent-400"
+            className="text-sm text-[color:var(--muted)] hover:text-[color:var(--accent)]"
             target="_blank"
             rel="noopener noreferrer"
           >
@@ -83,7 +83,7 @@ export function DirectContactInfo({ variant = 'card' }: DirectContactInfoProps) 
         {contact.social.facebook && (
           <a
             href={contact.social.facebook}
-            className="text-sm text-slate-400 hover:text-accent-400"
+            className="text-sm text-[color:var(--muted)] hover:text-[color:var(--accent)]"
             target="_blank"
             rel="noopener noreferrer"
           >
@@ -97,7 +97,7 @@ export function DirectContactInfo({ variant = 'card' }: DirectContactInfoProps) 
   if (variant === 'inline') {
     return (
       <>
-        <ul className="mt-4 flex flex-col gap-2 text-sm text-slate-400">{items}</ul>
+        <ul className="mt-4 flex flex-col gap-2 text-sm text-[color:var(--muted)]">{items}</ul>
         {social}
       </>
     )

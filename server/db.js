@@ -38,6 +38,15 @@ export function initDb() {
       sort_order INTEGER NOT NULL DEFAULT 0
     );
 
+    CREATE TABLE IF NOT EXISTS portfolio_items (
+      id TEXT PRIMARY KEY,
+      title TEXT NOT NULL,
+      description TEXT NOT NULL,
+      category TEXT,
+      image_url TEXT,
+      sort_order INTEGER NOT NULL DEFAULT 0
+    );
+
     CREATE TABLE IF NOT EXISTS company_settings (
       id INTEGER PRIMARY KEY CHECK (id = 1),
       name TEXT NOT NULL,
@@ -146,6 +155,26 @@ function seedIfEmpty(db, rootDir) {
     social: JSON.stringify(contact.social ?? {}),
   })
 
+  const portfolioJson = JSON.parse(
+    fs.readFileSync(path.join(contentDir, 'portfolio.json'), 'utf-8'),
+  )
+
+  const insertPortfolio = db.prepare(`
+    INSERT INTO portfolio_items (id, title, description, category, image_url, sort_order)
+    VALUES (?, ?, ?, ?, ?, ?)
+  `)
+
+  portfolioJson.portfolio.forEach((item, i) => {
+    insertPortfolio.run(
+      item.id,
+      item.title,
+      item.description,
+      item.category ?? null,
+      item.imageUrl ?? null,
+      item.sort_order ?? i,
+    )
+  })
+
   console.log('Database seeded from public/content/*.json')
 }
 
@@ -154,7 +183,7 @@ function ensureAdminUser(db) {
   if (count > 0) return
 
   const username = process.env.ADMIN_USERNAME || 'admin'
-  const password = process.env.ADMIN_PASSWORD || 'admin1234567891011'
+  const password = process.env.ADMIN_PASSWORD || 'admin123'
   const hash = bcrypt.hashSync(password, 10)
 
   db.prepare('INSERT INTO admin_users (username, password_hash) VALUES (?, ?)').run(
@@ -185,6 +214,16 @@ export function rowToPlan(row) {
   }
 }
 
+export function rowToPortfolioItem(row) {
+  return {
+    id: row.id,
+    title: row.title,
+    description: row.description,
+    category: row.category ?? undefined,
+    imageUrl: row.image_url ?? undefined,
+  }
+}
+
 export function getPublicContent(db) {
   const services = db
     .prepare('SELECT * FROM services ORDER BY sort_order ASC')
@@ -198,10 +237,15 @@ export function getPublicContent(db) {
 
   const company = db.prepare('SELECT * FROM company_settings WHERE id = 1').get()
   const contact = db.prepare('SELECT * FROM contact_settings WHERE id = 1').get()
+  const portfolio = db
+    .prepare('SELECT * FROM portfolio_items ORDER BY sort_order ASC')
+    .all()
+    .map(rowToPortfolioItem)
 
   return {
     services,
     plans,
+    portfolio,
     company: company
       ? {
           name: company.name,
